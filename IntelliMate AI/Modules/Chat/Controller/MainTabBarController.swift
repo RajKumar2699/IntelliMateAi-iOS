@@ -24,11 +24,13 @@ final class MainTabBarController: UITabBarController {
         let aiChatVC = ChatViewController(viewModel: chatViewModel)
         aiChatVC.title = "AI Chat Assistant"
 
-        let resumeBuilderVC = ResumeBuilderViewController()
-        resumeBuilderVC.title = "AI Resume Builder"
+        let resumeRepository = ResumeRepositoryImpl(baseURL: "http://127.0.0.1:8000")
+        let resumeViewModel = ResumeBuilderViewModel(repository: resumeRepository)
+        let resumeVC = ResumeUploadViewController(viewModel: resumeViewModel)
+        resumeVC.title = "Resume Analyzer"
 
         let chatNav = UINavigationController(rootViewController: aiChatVC)
-        let resumeNav = UINavigationController(rootViewController: resumeBuilderVC)
+        let resumeNav = UINavigationController(rootViewController: resumeVC)
 
         chatNav.tabBarItem = UITabBarItem(
             title: "AI Chat",
@@ -38,8 +40,8 @@ final class MainTabBarController: UITabBarController {
 
         resumeNav.tabBarItem = UITabBarItem(
             title: "Resume",
-            image: UIImage(systemName: "doc.text.fill"),
-            selectedImage: UIImage(systemName: "doc.text.fill")
+            image: UIImage(systemName: "doc.text.magnifyingglass"),
+            selectedImage: UIImage(systemName: "doc.text.magnifyingglass")
         )
 
         viewControllers = [chatNav, resumeNav]

@@ -8,11 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		DC7627462FF6C21100E0A283 /* UITableView+Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7627452FF6C21100E0A283 /* UITableView+Register.swift */; };
+		DC9AC1332FF979B60066079E /* ResumeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9AC1322FF979B60066079E /* ResumeModels.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		DC2C7F472FF805B70058144C /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
-		DC2C7F4D2FF806130058144C /* ResumeBuilderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeBuilderViewController.swift; sourceTree = "<group>"; };
+		DC3504272FFAB7510036FCB6 /* ResumeFlowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeFlowData.swift; sourceTree = "<group>"; };
+		DC35042A2FFAB75C0036FCB6 /* ATSCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ATSCircleView.swift; sourceTree = "<group>"; };
+		DC35042D2FFAB76C0036FCB6 /* ResumeUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeUploadViewController.swift; sourceTree = "<group>"; };
+		DC3504302FFAB77A0036FCB6 /* ResumeImprovementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeImprovementViewController.swift; sourceTree = "<group>"; };
+		DC3504332FFAB7860036FCB6 /* ResumePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumePreviewViewController.swift; sourceTree = "<group>"; };
+		DC35043D2FFACDA80036FCB6 /* ResumePDFGeneratorError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumePDFGeneratorError.swift; sourceTree = "<group>"; };
+		DC3504462FFADC770036FCB6 /* ResumeSourceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeSourceType.swift; sourceTree = "<group>"; };
 		DC7626AE2FF6B72E00E0A283 /* IntelliMate AI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IntelliMate AI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC7626D72FF6B8E400E0A283 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DC7626D82FF6B8E400E0A283 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +56,9 @@
 		DC7627612FF6C27100E0A283 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		DC7627642FF6E0CA00E0A283 /* ChatHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHeaderView.swift; sourceTree = "<group>"; };
 		DC76276A2FF6E29200E0A283 /* AnimatedBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedBackgroundView.swift; sourceTree = "<group>"; };
+		DC9AC1322FF979B60066079E /* ResumeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeModels.swift; sourceTree = "<group>"; };
+		DC9AC1382FF979C70066079E /* ResumeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeRepository.swift; sourceTree = "<group>"; };
+		DC9AC13B2FF979D30066079E /* ResumeBuilderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeBuilderViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -209,7 +219,10 @@
 		DC7626F52FF6B95D00E0A283 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				DC2C7F4D2FF806130058144C /* ResumeBuilderViewController.swift */,
+				DC3504462FFADC770036FCB6 /* ResumeSourceType.swift */,
+				DC3504332FFAB7860036FCB6 /* ResumePreviewViewController.swift */,
+				DC3504302FFAB77A0036FCB6 /* ResumeImprovementViewController.swift */,
+				DC35042D2FFAB76C0036FCB6 /* ResumeUploadViewController.swift */,
 				DC7627612FF6C27100E0A283 /* ChatViewController.swift */,
 				DC2C7F472FF805B70058144C /* MainTabBarController.swift */,
 			);
@@ -219,6 +232,7 @@
 		DC7626F82FF6B96700E0A283 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				DC35042A2FFAB75C0036FCB6 /* ATSCircleView.swift */,
 				DC76276A2FF6E29200E0A283 /* AnimatedBackgroundView.swift */,
 				DC7627642FF6E0CA00E0A283 /* ChatHeaderView.swift */,
 				DC76275E2FF6C26700E0A283 /* ChatTableViewCell.swift */,
@@ -231,6 +245,7 @@
 		DC7626FB2FF6B96D00E0A283 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				DC9AC13B2FF979D30066079E /* ResumeBuilderViewModel.swift */,
 				DC7627402FF6C1CB00E0A283 /* ChatViewModel.swift */,
 			);
 			path = ViewModel;
@@ -248,10 +263,12 @@
 		DC7627012FF6B98100E0A283 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DC3504272FFAB7510036FCB6 /* ResumeFlowData.swift */,
 				DC76272E2FF6C18600E0A283 /* ChatMessage.swift */,
 				DC76272B2FF6C14700E0A283 /* Sender.swift */,
 				DC7627282FF6C13F00E0A283 /* ChatResponse.swift */,
 				DC7627252FF6C13400E0A283 /* ChatRequest.swift */,
+				DC9AC1322FF979B60066079E /* ResumeModels.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -266,6 +283,7 @@
 		DC7627362FF6C1B400E0A283 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
+				DC9AC1382FF979C70066079E /* ResumeRepository.swift */,
 				DC76273D2FF6C1C400E0A283 /* ChatRepositoryImpl.swift */,
 				DC76273A2FF6C1BC00E0A283 /* ChatRepository.swift */,
 			);
@@ -275,6 +293,7 @@
 		DC76274E2FF6C23D00E0A283 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				DC35043D2FFACDA80036FCB6 /* ResumePDFGeneratorError.swift */,
 				DC7627532FF6C24A00E0A283 /* LoadingView.swift */,
 				DC7627522FF6C24200E0A283 /* PrimaryButton.swift */,
 			);
@@ -355,6 +374,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC9AC1332FF979B60066079E /* ResumeModels.swift in Sources */,
 				DC7627462FF6C21100E0A283 /* UITableView+Register.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
