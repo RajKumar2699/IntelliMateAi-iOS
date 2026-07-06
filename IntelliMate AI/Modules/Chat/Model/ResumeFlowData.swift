@@ -17,5 +17,5 @@ struct ResumeFlowData {
 
     var updatedResumeText: String?
     var updatedPDFURL: String?
-    var selectedTemplate: ResumeTemplateStyle = .modern
+    var selectedTemplate: ResumeTemplateStyle = .minimal
 }

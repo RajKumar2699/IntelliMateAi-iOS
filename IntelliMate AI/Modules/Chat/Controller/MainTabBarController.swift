@@ -24,12 +24,22 @@ final class MainTabBarController: UITabBarController {
         let aiChatVC = ChatViewController(viewModel: chatViewModel)
         aiChatVC.title = "AI Chat Assistant"
 
-        let resumeRepository = ResumeRepositoryImpl(baseURL: "http://127.0.0.1:8000")
+        let voiceRepository = VoiceRepositoryImpl(baseURL: "http://10.83.230.123:8000")
+        let speechService = SpeechRecognizerService()
+        let voiceViewModel = VoiceAIViewModel(
+            repository: voiceRepository,
+            speechService: speechService
+        )
+        let voiceVC = VoiceAIViewController(viewModel: voiceViewModel)
+        voiceVC.title = "Voice AI"
+
+        let resumeRepository = ResumeRepositoryImpl(baseURL: "http://10.83.230.123:8000")
         let resumeViewModel = ResumeBuilderViewModel(repository: resumeRepository)
         let resumeVC = ResumeUploadViewController(viewModel: resumeViewModel)
         resumeVC.title = "Resume Analyzer"
 
         let chatNav = UINavigationController(rootViewController: aiChatVC)
+        let voiceNav = UINavigationController(rootViewController: voiceVC)
         let resumeNav = UINavigationController(rootViewController: resumeVC)
 
         chatNav.tabBarItem = UITabBarItem(
@@ -38,13 +48,19 @@ final class MainTabBarController: UITabBarController {
             selectedImage: UIImage(systemName: "message.fill")
         )
 
+        voiceNav.tabBarItem = UITabBarItem(
+            title: "Voice AI",
+            image: UIImage(systemName: "waveform.circle.fill"),
+            selectedImage: UIImage(systemName: "waveform.circle.fill")
+        )
+
         resumeNav.tabBarItem = UITabBarItem(
             title: "Resume",
             image: UIImage(systemName: "doc.text.magnifyingglass"),
             selectedImage: UIImage(systemName: "doc.text.magnifyingglass")
         )
 
-        viewControllers = [chatNav, resumeNav]
+        viewControllers = [chatNav, voiceNav, resumeNav]
     }
 
     private func setupAppearance() {

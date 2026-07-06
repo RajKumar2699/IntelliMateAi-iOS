@@ -49,40 +49,43 @@ enum ResumeTemplateStyle: String, CaseIterable {
     // MARK: - Modern
 
     private static let modernCSS = """
-    @page { margin: 40px 46px; }
+    @page { margin: 40px 0px; }
     * { box-sizing: border-box; }
     body {
         font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
-        font-size: 15px;
+        font-size: 20px;
         line-height: 1.62;
         color: #1c1c1e;
         margin: 0;
     }
-    .resume { padding: 40px 46px; }
+    .resume {
+        padding-inline: 40px;
+    }   
     b, strong { color: #0b3d91; font-weight: 700; }
     .name-line {
-        font-size: 30px;
-        font-weight: 800;
-        color: #0b3d91;
-        text-align: center;
-        margin-bottom: 6px;
+      font-size: 28px;
+      font-weight: 700;
+      color: #0b3d91;
+      text-align: left;
+      margin-bottom: 6px;
     }
+
     .contact-line {
-        font-size: 13.5px;
-        color: #4a4a4a;
-        text-align: center;
-        margin-bottom: 3px;
+      font-size: 15.5px;
+      color: #4a4a4a;
+      text-align: left;
+      margin-bottom: 3px;
     }
     .section-heading {
-        font-size: 17px;
-        font-weight: 800;
-        color: #0b3d91;
-        text-transform: uppercase;
-        letter-spacing: 0.7px;
-        border-bottom: 2px solid #0b3d91;
-        padding-bottom: 5px;
-        margin-top: 22px;
-        margin-bottom: 12px;
+      font-size: 20px;
+      font-weight: 700;
+      color: #1c1c1e;
+      text-transform: none;
+      letter-spacing: 0;
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-top: 18px;
+      margin-bottom: 8px;
     }
     .line { margin-bottom: 8px; }
     .bullet {
@@ -108,30 +111,29 @@ enum ResumeTemplateStyle: String, CaseIterable {
     .resume { padding: 42px 48px; }
     b, strong { color: #000000; font-weight: 700; }
     .name-line {
-        font-size: 28px;
-        font-weight: 700;
-        color: #000000;
-        text-align: center;
-        letter-spacing: 0.4px;
-        margin-bottom: 6px;
+      font-size: 28px;
+      font-weight: 700;
+      color: #0b3d91;
+      text-align: left;
+      margin-bottom: 6px;
     }
+
     .contact-line {
-        font-size: 13px;
-        color: #444444;
-        text-align: center;
-        margin-bottom: 3px;
+      font-size: 13.5px;
+      color: #4a4a4a;
+      text-align: left;
+      margin-bottom: 3px;
     }
     .section-heading {
-        font-size: 16px;
-        font-weight: 700;
-        color: #000000;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        border-bottom: 1px solid #000000;
-        padding-bottom: 4px;
-        margin-top: 24px;
-        margin-bottom: 12px;
-        text-align: center;
+      font-size: 15px;
+      font-weight: 700;
+      color: #1c1c1e;
+      text-transform: none;
+      letter-spacing: 0;
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-top: 18px;
+      margin-bottom: 8px;
     }
     .line { margin-bottom: 8px; }
     .bullet {
@@ -149,43 +151,48 @@ enum ResumeTemplateStyle: String, CaseIterable {
     * { box-sizing: border-box; }
     body {
         font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
-        font-size: 14.5px;
-        line-height: 1.7;
+        font-size: 12.5px;
+        line-height: 1.45;
         color: #2a2a2a;
         margin: 0;
         font-weight: 400;
     }
-    .resume { padding: 38px 44px; }
-    b, strong { color: #2a2a2a; font-weight: 600; }
+
     .name-line {
-        font-size: 27px;
-        font-weight: 500;
-        letter-spacing: 0.8px;
-        color: #2a2a2a;
+        font-size: 19px;
+        font-weight: 700;
+        color: #0b3d91;
         text-align: left;
         margin-bottom: 4px;
     }
+
     .contact-line {
-        font-size: 13px;
-        color: #757575;
+        font-size: 11.5px;
+        color: #4a4a4a;
         text-align: left;
-        margin-bottom: 3px;
+        margin-bottom: 2px;
     }
+
     .section-heading {
-        font-size: 14px;
+        font-size: 13.5px;
         font-weight: 700;
-        color: #7a7a7a;
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
+        color: #1c1c1e;
+        text-transform: none;
+        letter-spacing: 0;
         border-bottom: none;
-        margin-top: 24px;
-        margin-bottom: 12px;
+        padding-bottom: 0;
+        margin-top: 12px;
+        margin-bottom: 6px;
     }
-    .line { margin-bottom: 8px; }
+
+    .line {
+        margin-bottom: 5px;
+    }
+
     .bullet {
-        margin: 0 0 7px 6px;
-        padding-left: 14px;
-        text-indent: -14px;
+        margin: 0 0 5px 6px;
+        padding-left: 12px;
+        text-indent: -12px;
     }
     a { color: #2a2a2a; text-decoration: underline; }
     """
@@ -205,33 +212,30 @@ enum ResumeTemplateStyle: String, CaseIterable {
     .resume { padding: 0 46px 40px 46px; }
     b, strong { color: #14213d; font-weight: 700; }
     .name-line {
-        font-size: 30px;
-        font-weight: 800;
-        color: #ffffff;
-        text-align: center;
-        background-color: #14213d;
-        padding: 30px 20px 8px 20px;
-        margin: 0 -46px 4px -46px;
+      font-size: 28px;
+      font-weight: 700;
+      color: #0b3d91;
+      text-align: left;
+      margin-bottom: 6px;
     }
+
     .contact-line {
-        font-size: 13.5px;
-        color: #d9dde5;
-        text-align: center;
-        background-color: #14213d;
-        padding: 0 20px;
-        margin: 0 -46px 0 -46px;
+      font-size: 13.5px;
+      color: #4a4a4a;
+      text-align: left;
+      margin-bottom: 3px;
     }
     .contact-line:last-of-type { padding-bottom: 24px; }
     .section-heading {
-        font-size: 16px;
-        font-weight: 800;
-        color: #14213d;
-        text-transform: uppercase;
-        letter-spacing: 0.6px;
-        border-left: 4px solid #fca311;
-        padding-left: 10px;
-        margin-top: 24px;
-        margin-bottom: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #1c1c1e;
+      text-transform: none;
+      letter-spacing: 0;
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-top: 18px;
+      margin-bottom: 8px;
     }
     .line { margin-bottom: 8px; }
     .bullet {
@@ -258,9 +262,7 @@ final class ResumePDFGenerator {
         "Additional Information"
     ]
 
-    /// Renders resumeText as a PDF. Safe to call concurrently: each call
-    /// creates its own PDFRenderSession, so there is no shared webView or
-    /// continuation state that a second in-flight call could overwrite.
+    
     func generatePDF(fromResumeText resumeText: String, template: ResumeTemplateStyle) async throws -> Data {
         let html = Self.htmlDocument(from: resumeText, template: template)
         let session = PDFRenderSession()
@@ -315,16 +317,19 @@ final class ResumePDFGenerator {
 
             let normalized = normalizeForHeadingMatch(line)
 
-            if let canonicalHeading = knownHeadings.first(where: { $0.caseInsensitiveCompare(normalized) == .orderedSame }) {
+            if let canonicalHeading = knownHeadings.first(where: {
+                $0.caseInsensitiveCompare(normalized) == .orderedSame
+            }) {
                 inHeaderBlock = false
-                html += "<div class=\"section-heading\">\(canonicalHeading)</div>\n"
+                html += "<div class=\"section-heading\">\(escapeHTML(canonicalHeading))</div>\n"
             } else if inHeaderBlock {
                 let cssClass = isFirstLine ? "name-line" : "contact-line"
-                html += "<div class=\"\(cssClass)\">\(line)</div>\n"
+                html += "<div class=\"\(cssClass)\">\(escapeHTML(line))</div>\n"
             } else if line.hasPrefix("•") || line.hasPrefix("-") {
-                html += "<div class=\"bullet\">\(line)</div>\n"
+                let bulletText = String(line.dropFirst()).trimmingCharacters(in: .whitespaces)
+                html += "<div class=\"bullet\">• \(renderMarkdownBold(escapeHTML(bulletText)))</div>\n"
             } else {
-                html += "<div class=\"line\">\(line)</div>\n"
+                html += "<div class=\"line\">\(renderMarkdownBold(escapeHTML(line)))</div>\n"
             }
 
             isFirstLine = false
@@ -333,11 +338,7 @@ final class ResumePDFGenerator {
         return html
     }
 
-    /// Strips whatever bold markup a heading line might carry — <b>/<strong>
-    /// tags or leftover markdown asterisks — plus a trailing colon, before
-    /// comparing against knownHeadings. Without this, a heading that comes
-    /// through as "**Key Highlights**" or "Key Highlights:" silently fails
-    /// to match and renders as plain body text instead of a styled heading.
+    
     private static func normalizeForHeadingMatch(_ line: String) -> String {
         var result = line
         for tag in ["<b>", "</b>", "<strong>", "</strong>"] {
@@ -350,15 +351,28 @@ final class ResumePDFGenerator {
         }
         return result.trimmingCharacters(in: .whitespaces)
     }
+    
+    private static func renderMarkdownBold(_ text: String) -> String {
+        var output = text
+        let pattern = #"\*\*(.+?)\*\*"#
+        if let regex = try? NSRegularExpression(pattern: pattern) {
+            let range = NSRange(output.startIndex..<output.endIndex, in: output)
+            output = regex.stringByReplacingMatches(in: output, options: [], range: range, withTemplate: "<strong>$1</strong>")
+        }
+        return output
+    }
+    
+    private static func escapeHTML(_ text: String) -> String {
+        text
+            .replacingOccurrences(of: "&", with: "&amp;")
+            .replacingOccurrences(of: "<", with: "&lt;")
+            .replacingOccurrences(of: ">", with: "&gt;")
+            .replacingOccurrences(of: "\"", with: "&quot;")
+            .replacingOccurrences(of: "'", with: "&#39;")
+    }
 }
 
-/// Owns exactly one WKWebView and one continuation for a single render
-/// pass. Previously this state lived directly on the ResumePDFGenerator
-/// singleton, so two overlapping calls (e.g. a double-tap on "Generate")
-/// could overwrite each other's webView/continuation mid-render, causing
-/// either a "continuation resumed more than once" crash or the wrong PDF
-/// being delivered to the wrong caller. Creating a fresh instance per call
-/// makes that impossible — there is nothing left to share.
+
 @MainActor
 private final class PDFRenderSession: NSObject, WKNavigationDelegate {
 
@@ -398,9 +412,6 @@ private final class PDFRenderSession: NSObject, WKNavigationDelegate {
         window.insertSubview(webView, at: 0)
     }
 
-    /// Guards against the delegate firing more than once for the same
-    /// session (e.g. didFinish followed later by didFail) by nil-ing the
-    /// continuation before resuming it.
     private func finish(_ result: Result<Data, Error>) {
         guard let continuation else { return }
         self.continuation = nil

@@ -56,6 +56,12 @@
 		DC7627612FF6C27100E0A283 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		DC7627642FF6E0CA00E0A283 /* ChatHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHeaderView.swift; sourceTree = "<group>"; };
 		DC76276A2FF6E29200E0A283 /* AnimatedBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedBackgroundView.swift; sourceTree = "<group>"; };
+		DC79D6CA2FFBC0EA00717E32 /* VoiceAskRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceAskRequest.swift; sourceTree = "<group>"; };
+		DC79D6CD2FFBC0F400717E32 /* VoiceRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRepository.swift; sourceTree = "<group>"; };
+		DC79D6D32FFBC1C200717E32 /* VoiceAIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceAIViewController.swift; sourceTree = "<group>"; };
+		DC79D6D62FFBC2EB00717E32 /* SpeechRecognizerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizerService.swift; sourceTree = "<group>"; };
+		DC79D6D92FFBC2F900717E32 /* OrbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrbView.swift; sourceTree = "<group>"; };
+		DC79D6DC2FFBC30500717E32 /* VoiceAIViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceAIViewModel.swift; sourceTree = "<group>"; };
 		DC9AC1322FF979B60066079E /* ResumeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeModels.swift; sourceTree = "<group>"; };
 		DC9AC1382FF979C70066079E /* ResumeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeRepository.swift; sourceTree = "<group>"; };
 		DC9AC13B2FF979D30066079E /* ResumeBuilderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeBuilderViewModel.swift; sourceTree = "<group>"; };
@@ -219,6 +225,7 @@
 		DC7626F52FF6B95D00E0A283 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				DC79D6D32FFBC1C200717E32 /* VoiceAIViewController.swift */,
 				DC3504462FFADC770036FCB6 /* ResumeSourceType.swift */,
 				DC3504332FFAB7860036FCB6 /* ResumePreviewViewController.swift */,
 				DC3504302FFAB77A0036FCB6 /* ResumeImprovementViewController.swift */,
@@ -232,6 +239,7 @@
 		DC7626F82FF6B96700E0A283 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				DC79D6D92FFBC2F900717E32 /* OrbView.swift */,
 				DC35042A2FFAB75C0036FCB6 /* ATSCircleView.swift */,
 				DC76276A2FF6E29200E0A283 /* AnimatedBackgroundView.swift */,
 				DC7627642FF6E0CA00E0A283 /* ChatHeaderView.swift */,
@@ -245,6 +253,7 @@
 		DC7626FB2FF6B96D00E0A283 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				DC79D6DC2FFBC30500717E32 /* VoiceAIViewModel.swift */,
 				DC9AC13B2FF979D30066079E /* ResumeBuilderViewModel.swift */,
 				DC7627402FF6C1CB00E0A283 /* ChatViewModel.swift */,
 			);
@@ -254,6 +263,7 @@
 		DC7626FE2FF6B97900E0A283 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				DC79D6D62FFBC2EB00717E32 /* SpeechRecognizerService.swift */,
 				DC7627342FF6C19C00E0A283 /* ChatServiceImpl.swift */,
 				DC7627312FF6C19300E0A283 /* ChatService.swift */,
 			);
@@ -263,6 +273,7 @@
 		DC7627012FF6B98100E0A283 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DC79D6CA2FFBC0EA00717E32 /* VoiceAskRequest.swift */,
 				DC3504272FFAB7510036FCB6 /* ResumeFlowData.swift */,
 				DC76272E2FF6C18600E0A283 /* ChatMessage.swift */,
 				DC76272B2FF6C14700E0A283 /* Sender.swift */,
@@ -283,6 +294,7 @@
 		DC7627362FF6C1B400E0A283 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
+				DC79D6CD2FFBC0F400717E32 /* VoiceRepository.swift */,
 				DC9AC1382FF979C70066079E /* ResumeRepository.swift */,
 				DC76273D2FF6C1C400E0A283 /* ChatRepositoryImpl.swift */,
 				DC76273A2FF6C1BC00E0A283 /* ChatRepository.swift */,

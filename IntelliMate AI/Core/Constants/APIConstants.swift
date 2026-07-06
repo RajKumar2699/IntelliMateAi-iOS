@@ -9,7 +9,7 @@
 import Foundation
 
 enum APIConstants {
-    static let baseURL = "http://127.0.0.1:8000"
+    static let baseURL = "http://10.83.230.123:8000"
     static let apiVersion = "/api/v1"
     static let defaultHeaders = [
         "Content-Type": "application/json",

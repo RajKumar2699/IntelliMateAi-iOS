@@ -31,7 +31,7 @@ final class ResumeRepositoryImpl: ResumeRepository {
     private let baseURL: String
     private let session: URLSession
 
-    init(baseURL: String = "http://127.0.0.1:8000", session: URLSession = .shared) {
+    init(baseURL: String = "http://10.83.230.123:8000", session: URLSession = .shared) {
         self.baseURL = baseURL
         self.session = session
     }

@@ -132,13 +132,6 @@ final class ResumeBuilderViewModel {
         flowData.selectedTemplate = template
     }
 
-    /// Generates a PDF for the current updatedResumeText using the given
-    /// (or previously selected) template.
-    ///
-    /// `completion` lets the caller distinguish *why* it asked for a PDF —
-    /// e.g. to preview it vs. to share/save it — without both actions
-    /// ending up wired to the same onPDFDownloaded closure and doing the
-    /// same thing. onPDFDownloaded still fires for any existing observers.
     func generatePDF(
         resumeText: String? = nil,
         template: ResumeTemplateStyle? = nil,
