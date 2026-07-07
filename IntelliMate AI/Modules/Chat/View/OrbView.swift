@@ -29,12 +29,12 @@ final class OrbView: UIView {
         super.init(frame: frame)
         setupUI()
         startAnimating()
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handlePower(_:)),
-            name: .voiceOrbPowerDidChange,
-            object: nil
-        )
+//        NotificationCenter.default.addObserver(
+//            self,
+//            selector: #selector(handlePower(_:)),
+//            name: .voiceOrbPowerDidChange,
+//            object: nil
+//        )
     }
 
     required init?(coder: NSCoder) {

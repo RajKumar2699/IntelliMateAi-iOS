@@ -13,6 +13,10 @@ final class ResumeUploadViewController: UIViewController {
 
     private let viewModel: ResumeBuilderViewModel
 
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
+    private let contentStack = UIStackView()
+
     private let titleLabel = UILabel()
     private let uploadButton = UIButton(type: .system)
     private let fileLabel = UILabel()
@@ -43,9 +47,53 @@ final class ResumeUploadViewController: UIViewController {
     }
 
     private func setupUI() {
-        view.backgroundColor = UIColor.systemGroupedBackground
+        view.backgroundColor = .systemGroupedBackground
         title = "Resume"
 
+        setupScrollView()
+        setupViews()
+        setupLayout()
+    }
+
+    private func setupScrollView() {
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.alwaysBounceVertical = true
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.keyboardDismissMode = .interactive
+        scrollView.contentInsetAdjustmentBehavior = .automatic
+
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+
+        contentStack.translatesAutoresizingMaskIntoConstraints = false
+        contentStack.axis = .vertical
+        contentStack.spacing = 18
+        contentStack.alignment = .fill
+
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(contentStack)
+
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+
+            contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+
+            contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
+
+            contentStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            contentStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
+            contentStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
+            contentStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24)
+        ])
+    }
+
+    private func setupViews() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.text = "Upload Resume"
         titleLabel.font = .systemFont(ofSize: 30, weight: .bold)
@@ -57,8 +105,8 @@ final class ResumeUploadViewController: UIViewController {
         uploadButton.backgroundColor = .systemBlue
         uploadButton.layer.cornerRadius = 18
         uploadButton.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        uploadButton.heightAnchor.constraint(equalToConstant: 56).isActive = true
         uploadButton.addTarget(self, action: #selector(uploadTapped), for: .touchUpInside)
+        uploadButton.heightAnchor.constraint(equalToConstant: 56).isActive = true
 
         fileLabel.translatesAutoresizingMaskIntoConstraints = false
         fileLabel.text = "No file selected"
@@ -84,6 +132,7 @@ final class ResumeUploadViewController: UIViewController {
 
         atsCircleView.translatesAutoresizingMaskIntoConstraints = false
         atsCircleView.update(score: 0)
+        atsCircleView.heightAnchor.constraint(equalToConstant: 220).isActive = true
 
         checkATSButton.translatesAutoresizingMaskIntoConstraints = false
         checkATSButton.setTitle("Check ATS Score", for: .normal)
@@ -91,8 +140,8 @@ final class ResumeUploadViewController: UIViewController {
         checkATSButton.backgroundColor = .systemGreen
         checkATSButton.layer.cornerRadius = 16
         checkATSButton.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        checkATSButton.heightAnchor.constraint(equalToConstant: 56).isActive = true
         checkATSButton.addTarget(self, action: #selector(checkATSTapped), for: .touchUpInside)
+        checkATSButton.heightAnchor.constraint(equalToConstant: 56).isActive = true
 
         improveResumeButton.translatesAutoresizingMaskIntoConstraints = false
         improveResumeButton.setTitle("Improve Resume", for: .normal)
@@ -100,61 +149,44 @@ final class ResumeUploadViewController: UIViewController {
         improveResumeButton.backgroundColor = .systemPurple
         improveResumeButton.layer.cornerRadius = 16
         improveResumeButton.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        improveResumeButton.heightAnchor.constraint(equalToConstant: 56).isActive = true
         improveResumeButton.isEnabled = false
         improveResumeButton.alpha = 0.5
         improveResumeButton.addTarget(self, action: #selector(improveTapped), for: .touchUpInside)
+        improveResumeButton.heightAnchor.constraint(equalToConstant: 56).isActive = true
 
         loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
         loadingIndicator.hidesWhenStopped = true
 
-        view.addSubview(titleLabel)
-        view.addSubview(uploadButton)
-        view.addSubview(fileLabel)
-        view.addSubview(jdLabel)
-        view.addSubview(jdTextView)
-        view.addSubview(atsCircleView)
-        view.addSubview(checkATSButton)
-        view.addSubview(improveResumeButton)
-        view.addSubview(loadingIndicator)
-
+        let atsContainer = UIView()
+        atsContainer.translatesAutoresizingMaskIntoConstraints = false
+        atsContainer.addSubview(atsCircleView)
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            atsCircleView.centerXAnchor.constraint(equalTo: atsContainer.centerXAnchor),
+            atsCircleView.topAnchor.constraint(equalTo: atsContainer.topAnchor),
+            atsCircleView.bottomAnchor.constraint(equalTo: atsContainer.bottomAnchor),
+            atsCircleView.widthAnchor.constraint(equalToConstant: 220)
+        ])
 
-            uploadButton.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
-            uploadButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            uploadButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+        contentStack.addArrangedSubview(titleLabel)
+        contentStack.addArrangedSubview(uploadButton)
+        contentStack.addArrangedSubview(fileLabel)
+        contentStack.addArrangedSubview(jdLabel)
+        contentStack.addArrangedSubview(jdTextView)
+        contentStack.addArrangedSubview(atsContainer)
+        contentStack.addArrangedSubview(checkATSButton)
+        contentStack.addArrangedSubview(improveResumeButton)
 
-            fileLabel.topAnchor.constraint(equalTo: uploadButton.bottomAnchor, constant: 14),
-            fileLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            fileLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
-
-            jdLabel.topAnchor.constraint(equalTo: fileLabel.bottomAnchor, constant: 18),
-            jdLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            jdLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
-
-            jdTextView.topAnchor.constraint(equalTo: jdLabel.bottomAnchor, constant: 8),
-            jdTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            jdTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
-
-            atsCircleView.topAnchor.constraint(equalTo: jdTextView.bottomAnchor, constant: 22),
-            atsCircleView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            atsCircleView.widthAnchor.constraint(equalToConstant: 220),
-            atsCircleView.heightAnchor.constraint(equalToConstant: 220),
-
-            improveResumeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            improveResumeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
-            improveResumeButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24),
-
-            checkATSButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            checkATSButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
-            checkATSButton.bottomAnchor.constraint(equalTo: improveResumeButton.topAnchor, constant: -14),
-
+        view.addSubview(loadingIndicator)
+        NSLayoutConstraint.activate([
             loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
+    }
+
+    private func setupLayout() {
+        titleLabel.setContentHuggingPriority(.required, for: .vertical)
+        fileLabel.setContentHuggingPriority(.required, for: .vertical)
+        jdLabel.setContentHuggingPriority(.required, for: .vertical)
     }
 
     private func bindViewModel() {
