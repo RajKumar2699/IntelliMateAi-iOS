@@ -65,18 +65,25 @@ final class WebRTCVoiceClient: NSObject {
 
     private func configureAudioSession() {
         let session = AVAudioSession.sharedInstance()
+            do {
+                try session.setCategory(
+                    .playAndRecord,
+                    mode: .voiceChat,
+                    options: [.defaultToSpeaker, .allowBluetooth, .allowBluetoothA2DP]
+                )
+                try session.setActive(true)
+                try session.overrideOutputAudioPort(.speaker)
 
-        do {
-            try session.setCategory(.playAndRecord,
-                                    mode: .videoChat,
-                                    options: [.defaultToSpeaker, .allowBluetooth, .allowBluetoothA2DP])
-            try session.setPreferredSampleRate(48000)
-            try session.setPreferredIOBufferDuration(0.02)
-            try session.overrideOutputAudioPort(.speaker)
-            try session.setActive(true, options: [])
-        } catch {
-            delegate?.voiceClient(self, didFail: "Audio session error: \(error.localizedDescription)")
-        }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    do {
+                        try session.overrideOutputAudioPort(.speaker)
+                    } catch {
+                        print("speaker override retry failed: \(error)")
+                    }
+                }
+            } catch {
+                print("audio session error: \(error)")
+            }
     }
 
     private func createPeerConnection() {
