@@ -10,8 +10,7 @@
 		DC4AFE5F2FFC178C0087C731 /* WebRTC in Frameworks */ = {isa = PBXBuildFile; productRef = DC4AFE5E2FFC178C0087C731 /* WebRTC */; };
 		DC7627462FF6C21100E0A283 /* UITableView+Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7627452FF6C21100E0A283 /* UITableView+Register.swift */; };
 		DC9AC1332FF979B60066079E /* ResumeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC9AC1322FF979B60066079E /* ResumeModels.swift */; };
-		DCF1533A2FFD045B0049CFF4 /* WebRTCVoiceClient+Delegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF153392FFD045B0049CFF4 /* WebRTCVoiceClient+Delegates.swift */; };
-		DCF1533E2FFD04770049CFF4 /* WebRTCVoiceClient+DataChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCF1533D2FFD04770049CFF4 /* WebRTCVoiceClient+DataChannel.swift */; };
+		DCB6B9F72FFE2E4A00EEE428 /* AdvancedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB6B9F62FFE2E4A00EEE428 /* AdvancedViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +22,13 @@
 		DC3504332FFAB7860036FCB6 /* ResumePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumePreviewViewController.swift; sourceTree = "<group>"; };
 		DC35043D2FFACDA80036FCB6 /* ResumePDFGeneratorError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumePDFGeneratorError.swift; sourceTree = "<group>"; };
 		DC3504462FFADC770036FCB6 /* ResumeSourceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeSourceType.swift; sourceTree = "<group>"; };
+		DC4906332FFEAC91007821F6 /* VoiceEnrollmentResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceEnrollmentResponse.swift; sourceTree = "<group>"; };
+		DC4906362FFEAD33007821F6 /* InterviewAssistantViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterviewAssistantViewModel.swift; sourceTree = "<group>"; };
+		DC4906392FFEAD62007821F6 /* InterviewAudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterviewAudioRecorder.swift; sourceTree = "<group>"; };
+		DC4906452FFEC5C2007821F6 /* InterviewAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterviewAPIService.swift; sourceTree = "<group>"; };
+		DC49064B2FFEC668007821F6 /* InterviewWebSocketServiceDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterviewWebSocketServiceDelegate.swift; sourceTree = "<group>"; };
+		DC49064E2FFEC689007821F6 /* InterviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterviewViewController.swift; sourceTree = "<group>"; };
+		DC4906512FFEDA01007821F6 /* WSBaseMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WSBaseMessage.swift; sourceTree = "<group>"; };
 		DC4AFE812FFC416E0087C731 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		DC7626AE2FF6B72E00E0A283 /* IntelliMate AI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IntelliMate AI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC7626D72FF6B8E400E0A283 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -64,14 +70,12 @@
 		DC9AC1322FF979B60066079E /* ResumeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeModels.swift; sourceTree = "<group>"; };
 		DC9AC1382FF979C70066079E /* ResumeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeRepository.swift; sourceTree = "<group>"; };
 		DC9AC13B2FF979D30066079E /* ResumeBuilderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeBuilderViewModel.swift; sourceTree = "<group>"; };
-		DCF1532A2FFD04070049CFF4 /* VoiceConnectionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceConnectionState.swift; sourceTree = "<group>"; };
-		DCF1532D2FFD04110049CFF4 /* WebRTCOfferRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebRTCOfferRequest.swift; sourceTree = "<group>"; };
-		DCF153302FFD04180049CFF4 /* WebRTCAnswerResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebRTCAnswerResponse.swift; sourceTree = "<group>"; };
-		DCF153332FFD04270049CFF4 /* AssistantEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssistantEvent.swift; sourceTree = "<group>"; };
-		DCF153362FFD04330049CFF4 /* WebRTCVoiceClientDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebRTCVoiceClientDelegate.swift; sourceTree = "<group>"; };
-		DCF153392FFD045B0049CFF4 /* WebRTCVoiceClient+Delegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebRTCVoiceClient+Delegates.swift"; sourceTree = "<group>"; };
-		DCF1533D2FFD04770049CFF4 /* WebRTCVoiceClient+DataChannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebRTCVoiceClient+DataChannel.swift"; sourceTree = "<group>"; };
-		DCF153412FFD04910049CFF4 /* AdvancedVoiceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedVoiceViewModel.swift; sourceTree = "<group>"; };
+		DCB6B9E92FFE2D8700EEE428 /* RealtimeSessionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeSessionRequest.swift; sourceTree = "<group>"; };
+		DCB6B9EC2FFE2D9100EEE428 /* BackendAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendAPIService.swift; sourceTree = "<group>"; };
+		DCB6B9EF2FFE2D9E00EEE428 /* AudioSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSessionManager.swift; sourceTree = "<group>"; };
+		DCB6B9F22FFE2DA800EEE428 /* OpenAIRealtimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIRealtimeManager.swift; sourceTree = "<group>"; };
+		DCB6B9F52FFE2DE500EEE428 /* FallbackTranscriptionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FallbackTranscriptionRequest.swift; sourceTree = "<group>"; };
+		DCB6B9F62FFE2E4A00EEE428 /* AdvancedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedViewModel.swift; sourceTree = "<group>"; };
 		DCF153442FFD049D0049CFF4 /* AdvancedVoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedVoiceViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -151,8 +155,6 @@
 				DC7627412FF6C1F500E0A283 /* UIView+Constraints.swift */,
 				DC7627452FF6C21100E0A283 /* UITableView+Register.swift */,
 				DC7627492FF6C22E00E0A283 /* UITextView+Size.swift */,
-				DCF153392FFD045B0049CFF4 /* WebRTCVoiceClient+Delegates.swift */,
-				DCF1533D2FFD04770049CFF4 /* WebRTCVoiceClient+DataChannel.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -160,6 +162,8 @@
 		DC7626DC2FF6B8E400E0A283 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				DCB6B9F22FFE2DA800EEE428 /* OpenAIRealtimeManager.swift */,
+				DCB6B9EF2FFE2D9E00EEE428 /* AudioSessionManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -237,6 +241,7 @@
 		DC7626F52FF6B95D00E0A283 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				DC49064E2FFEC689007821F6 /* InterviewViewController.swift */,
 				DCF153442FFD049D0049CFF4 /* AdvancedVoiceViewController.swift */,
 				DC3504462FFADC770036FCB6 /* ResumeSourceType.swift */,
 				DC3504332FFAB7860036FCB6 /* ResumePreviewViewController.swift */,
@@ -265,9 +270,10 @@
 		DC7626FB2FF6B96D00E0A283 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				DCF153412FFD04910049CFF4 /* AdvancedVoiceViewModel.swift */,
+				DC4906362FFEAD33007821F6 /* InterviewAssistantViewModel.swift */,
 				DC9AC13B2FF979D30066079E /* ResumeBuilderViewModel.swift */,
 				DC7627402FF6C1CB00E0A283 /* ChatViewModel.swift */,
+				DCB6B9F62FFE2E4A00EEE428 /* AdvancedViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -275,6 +281,9 @@
 		DC7626FE2FF6B97900E0A283 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				DC49064B2FFEC668007821F6 /* InterviewWebSocketServiceDelegate.swift */,
+				DC4906452FFEC5C2007821F6 /* InterviewAPIService.swift */,
+				DCB6B9EC2FFE2D9100EEE428 /* BackendAPIService.swift */,
 				DC7627342FF6C19C00E0A283 /* ChatServiceImpl.swift */,
 				DC7627312FF6C19300E0A283 /* ChatService.swift */,
 			);
@@ -284,10 +293,10 @@
 		DC7627012FF6B98100E0A283 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				DCF153332FFD04270049CFF4 /* AssistantEvent.swift */,
-				DCF1532D2FFD04110049CFF4 /* WebRTCOfferRequest.swift */,
-				DCF153302FFD04180049CFF4 /* WebRTCAnswerResponse.swift */,
-				DCF1532A2FFD04070049CFF4 /* VoiceConnectionState.swift */,
+				DC4906512FFEDA01007821F6 /* WSBaseMessage.swift */,
+				DC4906332FFEAC91007821F6 /* VoiceEnrollmentResponse.swift */,
+				DCB6B9F52FFE2DE500EEE428 /* FallbackTranscriptionRequest.swift */,
+				DCB6B9E92FFE2D8700EEE428 /* RealtimeSessionRequest.swift */,
 				DC3504272FFAB7510036FCB6 /* ResumeFlowData.swift */,
 				DC76272E2FF6C18600E0A283 /* ChatMessage.swift */,
 				DC76272B2FF6C14700E0A283 /* Sender.swift */,
@@ -308,7 +317,6 @@
 		DC7627362FF6C1B400E0A283 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
-				DCF153362FFD04330049CFF4 /* WebRTCVoiceClientDelegate.swift */,
 				DC9AC1382FF979C70066079E /* ResumeRepository.swift */,
 				DC76273D2FF6C1C400E0A283 /* ChatRepositoryImpl.swift */,
 				DC76273A2FF6C1BC00E0A283 /* ChatRepository.swift */,
@@ -319,6 +327,7 @@
 		DC76274E2FF6C23D00E0A283 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				DC4906392FFEAD62007821F6 /* InterviewAudioRecorder.swift */,
 				DC35043D2FFACDA80036FCB6 /* ResumePDFGeneratorError.swift */,
 				DC7627532FF6C24A00E0A283 /* LoadingView.swift */,
 				DC7627522FF6C24200E0A283 /* PrimaryButton.swift */,
@@ -406,8 +415,7 @@
 			files = (
 				DC9AC1332FF979B60066079E /* ResumeModels.swift in Sources */,
 				DC7627462FF6C21100E0A283 /* UITableView+Register.swift in Sources */,
-				DCF1533E2FFD04770049CFF4 /* WebRTCVoiceClient+DataChannel.swift in Sources */,
-				DCF1533A2FFD045B0049CFF4 /* WebRTCVoiceClient+Delegates.swift in Sources */,
+				DCB6B9F72FFE2E4A00EEE428 /* AdvancedViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

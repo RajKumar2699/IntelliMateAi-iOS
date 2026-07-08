@@ -20,7 +20,7 @@ final class MainTabBarController: UITabBarController {
     }
 
     private func setupTabs() {
-        guard let signalingURL = URL(string: baseURL) else {
+        guard let backendURL = URL(string: baseURL) else {
             assertionFailure("Invalid base URL: \(baseURL)")
             return
         }
@@ -36,10 +36,19 @@ final class MainTabBarController: UITabBarController {
         let resumeVC = ResumeUploadViewController(viewModel: resumeViewModel)
         resumeVC.title = "Resume Analyzer"
 
-        let voiceClient = WebRTCVoiceClient(signalingBaseURL: signalingURL)
-        let voiceViewModel = AdvancedVoiceViewModel(client: voiceClient)
+        let backendAPI = BackendAPIService(baseURL: backendURL)
+        let realtimeManager = OpenAIRealtimeManager(backendAPI: backendAPI)
+        let preferredLanguageHint = Self.preferredLanguageCode()
+
+        let voiceViewModel = AdvancedVoiceViewModel(
+            realtimeManager: realtimeManager,
+            preferredLanguageHint: preferredLanguageHint
+        )
         let voiceVC = AdvancedVoiceViewController(viewModel: voiceViewModel)
         voiceVC.title = "Voice Assistant"
+
+        let interviewVC = InterviewViewController()
+        interviewVC.title = "Interview Assistant"
 
         let chatNav = makeNavigationController(
             rootViewController: aiChatVC,
@@ -59,7 +68,13 @@ final class MainTabBarController: UITabBarController {
             imageName: "waveform.circle.fill"
         )
 
-        setViewControllers([chatNav, resumeNav, voiceNav], animated: false)
+        let interviewNav = makeNavigationController(
+            rootViewController: interviewVC,
+            title: "Interview",
+            imageName: "person.2.wave.2.fill"
+        )
+
+        setViewControllers([chatNav, resumeNav, voiceNav, interviewNav], animated: false)
     }
 
     private func makeNavigationController(
@@ -90,5 +105,18 @@ final class MainTabBarController: UITabBarController {
 
         tabBar.tintColor = .systemBlue
         tabBar.unselectedItemTintColor = .secondaryLabel
+    }
+
+    private static func preferredLanguageCode() -> String? {
+        guard let preferred = Locale.preferredLanguages.first else {
+            return nil
+        }
+
+        let locale = Locale(identifier: preferred)
+        if #available(iOS 16.0, *) {
+            return locale.language.languageCode?.identifier
+        } else {
+            return locale.languageCode
+        }
     }
 }
