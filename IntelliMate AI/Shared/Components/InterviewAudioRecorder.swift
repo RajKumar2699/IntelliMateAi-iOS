@@ -6,8 +6,8 @@
 //
 
 
-import AVFoundation
 import Foundation
+import AVFoundation
 
 protocol InterviewAudioRecorderDelegate: AnyObject {
     func didPrepareEnrollmentFile(url: URL)
@@ -19,124 +19,199 @@ protocol InterviewAudioRecorderDelegate: AnyObject {
 final class InterviewAudioRecorder: NSObject {
     weak var delegate: InterviewAudioRecorderDelegate?
 
-    private let audioSession = AVAudioSession.sharedInstance()
-    private var audioRecorder: AVAudioRecorder?
-
+    private var enrollmentRecorder: AVAudioRecorder?
     private let audioEngine = AVAudioEngine()
-    private let converterOutputFormat = AVAudioFormat(commonFormat: .pcmFormatInt16,
-                                                      sampleRate: 16000,
-                                                      channels: 1,
-                                                      interleaved: true)!
-
-    private var streamingStarted = false
+    private let converterQueue = DispatchQueue(label: "interview.audio.converter")
+    private var isStreaming = false
+    private var currentEnrollmentURL: URL?
 
     func requestPermission(completion: @escaping (Bool) -> Void) {
-        audioSession.requestRecordPermission(completion)
+        if #available(iOS 17.0, *) {
+            AVAudioApplication.requestRecordPermission { granted in
+                DispatchQueue.main.async {
+                    completion(granted)
+                }
+            }
+        } else {
+            AVAudioSession.sharedInstance().requestRecordPermission { granted in
+                DispatchQueue.main.async {
+                    completion(granted)
+                }
+            }
+        }
     }
 
-    func startEnrollmentRecording(fileName: String = "candidate_enrollment.m4a") {
+    func startEnrollmentRecording(fileName: String) {
+        stopStreaming()
+        enrollmentRecorder?.stop()
+        enrollmentRecorder = nil
+
         do {
-            try audioSession.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker, .allowBluetooth])
-            try audioSession.setActive(true)
+            let session = AVAudioSession.sharedInstance()
+            try session.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker, .allowBluetooth])
+            try session.setPreferredSampleRate(16000)
+            try session.setActive(true, options: [])
 
             let url = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
-            delegate?.didPrepareEnrollmentFile(url: url)
+            if FileManager.default.fileExists(atPath: url.path) {
+                try? FileManager.default.removeItem(at: url)
+            }
+            currentEnrollmentURL = url
 
             let settings: [String: Any] = [
-                AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+                AVFormatIDKey: kAudioFormatMPEG4AAC,
                 AVSampleRateKey: 16000,
                 AVNumberOfChannelsKey: 1,
                 AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
             ]
 
-            audioRecorder = try AVAudioRecorder(url: url, settings: settings)
-            audioRecorder?.delegate = self
-            audioRecorder?.prepareToRecord()
-            audioRecorder?.record()
+            let recorder = try AVAudioRecorder(url: url, settings: settings)
+            recorder.delegate = self
+            recorder.isMeteringEnabled = true
+
+            guard recorder.prepareToRecord() else {
+                throw NSError(
+                    domain: "InterviewAudioRecorder",
+                    code: -1000,
+                    userInfo: [NSLocalizedDescriptionKey: "Failed to prepare enrollment recorder"]
+                )
+            }
+
+            delegate?.didPrepareEnrollmentFile(url: url)
+
+            guard recorder.record() else {
+                throw NSError(
+                    domain: "InterviewAudioRecorder",
+                    code: -1001,
+                    userInfo: [NSLocalizedDescriptionKey: "Failed to start enrollment recording"]
+                )
+            }
+
+            enrollmentRecorder = recorder
         } catch {
             delegate?.didFailAudioRecorder(error: error)
         }
     }
 
     func stopEnrollmentRecording() {
-        audioRecorder?.stop()
+        guard let recorder = enrollmentRecorder, recorder.isRecording else { return }
+        recorder.stop()
     }
 
     func startStreaming() {
-        guard !streamingStarted else { return }
-        streamingStarted = true
+        guard !isStreaming else { return }
+
+        enrollmentRecorder?.stop()
+        enrollmentRecorder = nil
 
         do {
-            try audioSession.setCategory(.playAndRecord, mode: .measurement, options: [.defaultToSpeaker, .allowBluetooth])
-            try audioSession.setPreferredSampleRate(16000)
-            try audioSession.setPreferredIOBufferDuration(0.02)
-            try audioSession.setActive(true)
+            let session = AVAudioSession.sharedInstance()
+            try session.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker, .allowBluetooth])
+            try session.setPreferredSampleRate(16000)
+            try session.setPreferredIOBufferDuration(0.064)
+            try session.setActive(true, options: [])
 
             let inputNode = audioEngine.inputNode
             let inputFormat = inputNode.inputFormat(forBus: 0)
 
+            guard let targetFormat = AVAudioFormat(
+                commonFormat: .pcmFormatInt16,
+                sampleRate: 16000,
+                channels: 1,
+                interleaved: true
+            ) else {
+                throw NSError(
+                    domain: "InterviewAudioRecorder",
+                    code: -1002,
+                    userInfo: [NSLocalizedDescriptionKey: "Unable to create target audio format"]
+                )
+            }
+
             inputNode.removeTap(onBus: 0)
+
             inputNode.installTap(onBus: 0, bufferSize: 1024, format: inputFormat) { [weak self] buffer, _ in
-                self?.processBuffer(buffer, inputFormat: inputFormat)
+                guard let self else { return }
+
+                self.converterQueue.async {
+                    guard let converter = AVAudioConverter(from: inputFormat, to: targetFormat) else {
+                        return
+                    }
+
+                    let ratio = targetFormat.sampleRate / inputFormat.sampleRate
+                    let frameCapacity = AVAudioFrameCount(Double(buffer.frameLength) * ratio) + 1024
+
+                    guard let convertedBuffer = AVAudioPCMBuffer(
+                        pcmFormat: targetFormat,
+                        frameCapacity: frameCapacity
+                    ) else {
+                        return
+                    }
+
+                    var conversionError: NSError?
+                    var didProvideInput = false
+
+                    let inputBlock: AVAudioConverterInputBlock = { _, outStatus in
+                        if didProvideInput {
+                            outStatus.pointee = .noDataNow
+                            return nil
+                        }
+                        didProvideInput = true
+                        outStatus.pointee = .haveData
+                        return buffer
+                    }
+
+                    converter.convert(to: convertedBuffer, error: &conversionError, withInputFrom: inputBlock)
+
+                    if let conversionError {
+                        DispatchQueue.main.async {
+                            self.delegate?.didFailAudioRecorder(error: conversionError)
+                        }
+                        return
+                    }
+
+                    guard let channelData = convertedBuffer.int16ChannelData else { return }
+                    let frameLength = Int(convertedBuffer.frameLength)
+                    guard frameLength > 0 else { return }
+
+                    let data = Data(bytes: channelData[0], count: frameLength * MemoryLayout<Int16>.size)
+
+                    DispatchQueue.main.async {
+                        self.delegate?.didProduceStreamingAudioChunk(data)
+                    }
+                }
             }
 
             audioEngine.prepare()
             try audioEngine.start()
+            isStreaming = true
         } catch {
-            streamingStarted = false
             delegate?.didFailAudioRecorder(error: error)
         }
     }
 
     func stopStreaming() {
-        guard streamingStarted else { return }
-        streamingStarted = false
+        guard isStreaming else { return }
         audioEngine.inputNode.removeTap(onBus: 0)
         audioEngine.stop()
-    }
-
-    private func processBuffer(_ buffer: AVAudioPCMBuffer, inputFormat: AVAudioFormat) {
-        guard let converter = AVAudioConverter(from: inputFormat, to: converterOutputFormat) else { return }
-
-        let frameCapacity = AVAudioFrameCount(Double(buffer.frameLength) * (converterOutputFormat.sampleRate / inputFormat.sampleRate) + 1024)
-        guard let convertedBuffer = AVAudioPCMBuffer(pcmFormat: converterOutputFormat, frameCapacity: frameCapacity) else { return }
-
-        var error: NSError?
-        var inputProvided = false
-
-        let inputBlock: AVAudioConverterInputBlock = { _, outStatus in
-            if inputProvided {
-                outStatus.pointee = .noDataNow
-                return nil
-            } else {
-                inputProvided = true
-                outStatus.pointee = .haveData
-                return buffer
-            }
-        }
-
-        converter.convert(to: convertedBuffer, error: &error, withInputFrom: inputBlock)
-
-        if let error {
-            delegate?.didFailAudioRecorder(error: error)
-            return
-        }
-
-        guard let channelData = convertedBuffer.int16ChannelData else { return }
-        let samples = Int(convertedBuffer.frameLength)
-        let data = Data(bytes: channelData.pointee, count: samples * MemoryLayout<Int16>.size)
-        delegate?.didProduceStreamingAudioChunk(data)
+        isStreaming = false
     }
 }
 
 extension InterviewAudioRecorder: AVAudioRecorderDelegate {
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
-        if flag {
-            delegate?.didFinishEnrollmentRecording(url: recorder.url)
-        } else {
-            delegate?.didFailAudioRecorder(error: NSError(domain: "InterviewAudioRecorder", code: -1, userInfo: [
-                NSLocalizedDescriptionKey: "Enrollment recording failed"
-            ]))
+        defer {
+            enrollmentRecorder = nil
         }
+
+        guard flag, let url = currentEnrollmentURL else {
+            delegate?.didFailAudioRecorder(error: NSError(
+                domain: "InterviewAudioRecorder",
+                code: -1003,
+                userInfo: [NSLocalizedDescriptionKey: "Enrollment recording failed"]
+            ))
+            return
+        }
+
+        delegate?.didFinishEnrollmentRecording(url: url)
     }
 }

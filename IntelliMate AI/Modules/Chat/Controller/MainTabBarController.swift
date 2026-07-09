@@ -47,7 +47,7 @@ final class MainTabBarController: UITabBarController {
         let voiceVC = AdvancedVoiceViewController(viewModel: voiceViewModel)
         voiceVC.title = "Voice Assistant"
 
-        let interviewVC = InterviewViewController()
+        let interviewVC = EnrollmentViewController()
         interviewVC.title = "Interview Assistant"
 
         let chatNav = makeNavigationController(

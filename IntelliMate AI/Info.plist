@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>NSMicrophoneUsageDescription</key>
-    <string>Microphone is needed for AI voice conversation.</string>
+    <string>Microphone is needed to record your voice samples, stream interview audio, and support AI voice conversation.</string>
     <key>NSAppTransportSecurity</key>
     <dict>
         <key>NSAllowsArbitraryLoads</key>
