@@ -81,6 +81,7 @@
 		DCBA824C300002E400A888F3 /* FeedQuestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedQuestionCell.swift; sourceTree = "<group>"; };
 		DCBA824F300002ED00A888F3 /* FeedAnswerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAnswerCell.swift; sourceTree = "<group>"; };
 		DCBA82523000043C00A888F3 /* FeedDebugCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDebugCell.swift; sourceTree = "<group>"; };
+		DCDF246A300E1EDD0016FB75 /* VoiceChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceChatMessage.swift; sourceTree = "<group>"; };
 		DCF153442FFD049D0049CFF4 /* AdvancedVoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedVoiceViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -262,6 +263,7 @@
 		DC7626F82FF6B96700E0A283 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				DCDF246A300E1EDD0016FB75 /* VoiceChatMessage.swift */,
 				DCBA82523000043C00A888F3 /* FeedDebugCell.swift */,
 				DCBA824F300002ED00A888F3 /* FeedAnswerCell.swift */,
 				DCBA824C300002E400A888F3 /* FeedQuestionCell.swift */,

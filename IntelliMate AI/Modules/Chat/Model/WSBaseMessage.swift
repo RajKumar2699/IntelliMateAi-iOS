@@ -27,7 +27,7 @@ struct WSSessionStarted: Codable {
 struct WSInterviewerRegistered: Codable {
     let type: String
     let interviewerProfileId: String
-    let scoreVsCandidate: Double?
+    let scoreVsCandidate: Double
 
     enum CodingKeys: String, CodingKey {
         case type
@@ -39,7 +39,7 @@ struct WSInterviewerRegistered: Codable {
 struct WSTranscriptMessage: Codable {
     let type: String
     let speaker: String
-    let similarity: Double?
+    let similarity: Double
     let text: String
 }
 

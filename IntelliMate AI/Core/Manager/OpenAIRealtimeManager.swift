@@ -57,9 +57,12 @@ final class OpenAIRealtimeManager: NSObject {
     private var peerConnection: RTCPeerConnection?
     private var audioTrack: RTCAudioTrack?
     private var localAudioSource: RTCAudioSource?
+    private var remoteAudioTrack: RTCAudioTrack?
     private var dataChannel: RTCDataChannel?
 
     private(set) var isConnected = false
+    private(set) var isSpeakerMuted = false
+    private(set) var isMicMuted = false
 
     init(backendAPI: BackendAPIService) {
         self.backendAPI = backendAPI
@@ -92,7 +95,11 @@ final class OpenAIRealtimeManager: NSObject {
         )
 
         guard let pc = factory.peerConnection(with: config, constraints: constraints, delegate: self) else {
-            throw NSError(domain: "OpenAIRealtimeManager", code: -200, userInfo: [NSLocalizedDescriptionKey: "Failed to create RTCPeerConnection"])
+            throw NSError(
+                domain: "OpenAIRealtimeManager",
+                code: -200,
+                userInfo: [NSLocalizedDescriptionKey: "Failed to create RTCPeerConnection"]
+            )
         }
         self.peerConnection = pc
 
@@ -102,13 +109,18 @@ final class OpenAIRealtimeManager: NSObject {
 
         let track = factory.audioTrack(with: source, trackId: "mic-audio")
         self.audioTrack = track
+        track.isEnabled = !isMicMuted
         pc.add(track, streamIds: ["stream0"])
 
         let dcConfig = RTCDataChannelConfiguration()
         dcConfig.isOrdered = true
 
         guard let dc = pc.dataChannel(forLabel: "oai-events", configuration: dcConfig) else {
-            throw NSError(domain: "OpenAIRealtimeManager", code: -201, userInfo: [NSLocalizedDescriptionKey: "Failed to create data channel"])
+            throw NSError(
+                domain: "OpenAIRealtimeManager",
+                code: -201,
+                userInfo: [NSLocalizedDescriptionKey: "Failed to create data channel"]
+            )
         }
         dc.delegate = self
         self.dataChannel = dc
@@ -134,6 +146,7 @@ final class OpenAIRealtimeManager: NSObject {
         peerConnection = nil
         audioTrack = nil
         localAudioSource = nil
+        remoteAudioTrack = nil
         dataChannel = nil
 
         if isConnected {
@@ -154,6 +167,16 @@ final class OpenAIRealtimeManager: NSObject {
             ]
         ])
         sendEvent(["type": "response.create"])
+    }
+
+    func setSpeakerMuted(_ muted: Bool) {
+        isSpeakerMuted = muted
+        remoteAudioTrack?.isEnabled = !muted
+    }
+
+    func setMicMuted(_ muted: Bool) {
+        isMicMuted = muted
+        audioTrack?.isEnabled = !muted
     }
 
     private func sendSessionUpdate() {
@@ -260,14 +283,24 @@ final class OpenAIRealtimeManager: NSObject {
             if !transcript.isEmpty {
                 delegate?.realtimeManager(self, didReceiveTranscript: transcript, role: "assistant")
             }
+
         case "conversation.item.input_audio_transcription.completed":
             let transcript = json["transcript"] as? String ?? ""
             if !transcript.isEmpty {
                 delegate?.realtimeManager(self, didReceiveTranscript: transcript, role: "user")
             }
+
         case "error":
             let message = (json["error"] as? [String: Any])?["message"] as? String ?? "Unknown realtime error"
-            delegate?.realtimeManager(self, didFail: NSError(domain: "OpenAIRealtimeManager", code: -100, userInfo: [NSLocalizedDescriptionKey: message]))
+            delegate?.realtimeManager(
+                self,
+                didFail: NSError(
+                    domain: "OpenAIRealtimeManager",
+                    code: -100,
+                    userInfo: [NSLocalizedDescriptionKey: message]
+                )
+            )
+
         default:
             break
         }
@@ -284,6 +317,14 @@ extension OpenAIRealtimeManager: RTCPeerConnectionDelegate {
     func peerConnection(_ peerConnection: RTCPeerConnection, didGenerate candidate: RTCIceCandidate) {}
     func peerConnection(_ peerConnection: RTCPeerConnection, didRemove candidates: [RTCIceCandidate]) {}
     func peerConnection(_ peerConnection: RTCPeerConnection, didOpen dataChannel: RTCDataChannel) {}
+    func peerConnection(_ peerConnection: RTCPeerConnection, didStartReceivingOn transceiver: RTCRtpTransceiver) {}
+
+    func peerConnection(_ peerConnection: RTCPeerConnection, didAdd rtpReceiver: RTCRtpReceiver, streams: [RTCMediaStream]) {
+        if let track = rtpReceiver.track as? RTCAudioTrack {
+            remoteAudioTrack = track
+            remoteAudioTrack?.isEnabled = !isSpeakerMuted
+        }
+    }
 
     func peerConnection(_ peerConnection: RTCPeerConnection, didChange stateChanged: RTCPeerConnectionState) {
         switch stateChanged {
@@ -295,9 +336,6 @@ extension OpenAIRealtimeManager: RTCPeerConnectionDelegate {
             break
         }
     }
-
-    func peerConnection(_ peerConnection: RTCPeerConnection, didStartReceivingOn transceiver: RTCRtpTransceiver) {}
-    func peerConnection(_ peerConnection: RTCPeerConnection, didAdd rtpReceiver: RTCRtpReceiver, streams: [RTCMediaStream]) {}
 }
 
 extension OpenAIRealtimeManager: RTCDataChannelDelegate {

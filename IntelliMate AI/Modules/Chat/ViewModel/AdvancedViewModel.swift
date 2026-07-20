@@ -5,6 +5,7 @@
 //  Created by Askme Technologies on 08/07/26.
 //
 
+
 import Foundation
 
 enum VoiceConnectionState {
@@ -26,6 +27,9 @@ final class AdvancedVoiceViewModel {
         didSet { onStateChange?(state) }
     }
 
+    private(set) var isSpeakerMuted = false
+    private(set) var isMicMuted = false
+
     init(realtimeManager: OpenAIRealtimeManager, preferredLanguageHint: String? = nil) {
         self.realtimeManager = realtimeManager
         self.preferredLanguageHint = preferredLanguageHint
@@ -40,6 +44,9 @@ final class AdvancedVoiceViewModel {
             guard let self else { return }
             do {
                 try await self.realtimeManager.connect(languageHint: self.preferredLanguageHint)
+
+                self.realtimeManager.setSpeakerMuted(self.isSpeakerMuted)
+                self.realtimeManager.setMicMuted(self.isMicMuted)
             } catch {
                 await MainActor.run {
                     self.state = .failed
@@ -57,19 +64,35 @@ final class AdvancedVoiceViewModel {
     func sendText(_ text: String) {
         realtimeManager.sendText(text)
     }
+
+    func setSpeakerMuted(_ muted: Bool) {
+        isSpeakerMuted = muted
+        realtimeManager.setSpeakerMuted(muted)
+    }
+
+    func setMicMuted(_ muted: Bool) {
+        isMicMuted = muted
+        realtimeManager.setMicMuted(muted)
+    }
 }
 
 extension AdvancedVoiceViewModel: OpenAIRealtimeManagerDelegate {
     func realtimeManagerDidConnect(_ manager: OpenAIRealtimeManager) {
-        DispatchQueue.main.async { self.state = .connected }
+        DispatchQueue.main.async {
+            self.state = .connected
+        }
     }
 
     func realtimeManagerDidDisconnect(_ manager: OpenAIRealtimeManager) {
-        DispatchQueue.main.async { self.state = .disconnected }
+        DispatchQueue.main.async {
+            self.state = .disconnected
+        }
     }
 
     func realtimeManager(_ manager: OpenAIRealtimeManager, didReceiveTranscript text: String, role: String?) {
-        DispatchQueue.main.async { self.onTranscript?(text, role) }
+        DispatchQueue.main.async {
+            self.onTranscript?(text, role)
+        }
     }
 
     func realtimeManager(_ manager: OpenAIRealtimeManager, didFail error: Error) {
